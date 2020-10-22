@@ -9,6 +9,8 @@ const { CLIENT_ORIGIN } = require("./config");
 const morganOption = NODE_ENV === "production" ? "tiny" : "common";
 const UserRouter = require("./Routers/usersRouter");
 const LoginRouter = require("./Routers/loginRouter");
+const VenueRouter = require("./Routers/venuesRouter");
+const BookingsRouter = require("./Routers/bookingsRouter");
 app.use(morgan(morganOption));
 app.use(helmet());
 app.use(
@@ -21,7 +23,9 @@ app.get("/", (req, res) => {
   res.send("Hello, boilerplate!");
 });
 app.use("/login", LoginRouter);
+app.use("/bookings", BookingsRouter);
 app.use("/users", UserRouter);
+app.use("/venues", VenueRouter);
 app.use(function errorHandler(error, req, res, next) {
   let response;
   if (NODE_ENV === "production") {

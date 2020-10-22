@@ -1,5 +1,5 @@
 const express = require("express");
-const AuthService = require("../Auth/authService");
+const AuthService = require("../Services/authService");
 const authRouter = express.Router();
 const jsonParser = express.json();
 
