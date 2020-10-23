@@ -9,8 +9,7 @@ serializeBooking = (booking) => ({
   id: booking.id,
   users_id: booking.users_id,
   venue_id: booking.venue_id,
-  date: booking.date,
-  status: booking.status,
+  booking_date: booking.booking_date,
 });
 
 BookingsRouter.route("/")
@@ -22,9 +21,9 @@ BookingsRouter.route("/")
       .catch(next);
   })
   .post(jsonParser, async (req, res, next) => {
-    const { users_id, venue_id, booking_date, status } = req.body;
+    const { users_id, venue_id, booking_date } = req.body;
 
-    const newBooking = { users_id, venue_id, booking_date, status };
+    const newBooking = { users_id, venue_id, booking_date };
 
     for (const [key, value] of Object.entries(newBooking)) {
       if (value == null) {

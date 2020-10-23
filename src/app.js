@@ -13,14 +13,10 @@ const VenueRouter = require("./Routers/venuesRouter");
 const BookingsRouter = require("./Routers/bookingsRouter");
 app.use(morgan(morganOption));
 app.use(helmet());
-app.use(
-  cors({
-    origin: CLIENT_ORIGIN,
-  })
-);
+app.use(cors());
 
 app.get("/", (req, res) => {
-  res.send("Hello, boilerplate!");
+  res.send("Hello, bookapp!");
 });
 app.use("/login", LoginRouter);
 app.use("/bookings", BookingsRouter);
