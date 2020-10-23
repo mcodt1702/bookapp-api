@@ -14,6 +14,13 @@ const BookingService = {
         return rows[0];
       });
   },
+
+  updateStatus(knex, order_id, updateStatus) {
+    return knex("bookings")
+      .where({ id: order_id })
+      .update(updateStatus, (returning = true))
+      .returning("*");
+  },
 };
 
 module.exports = BookingService;
