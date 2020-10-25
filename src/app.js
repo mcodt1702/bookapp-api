@@ -1,26 +1,22 @@
 require("dotenv").config();
 const express = require("express");
 const morgan = require("morgan");
+
 const cors = require("cors");
 const helmet = require("helmet");
 const { NODE_ENV } = require("./config");
 const app = express();
 const { CLIENT_ORIGIN } = require("./config");
-const morganOption = NODE_ENV === "production" ? "tiny" : "common";
+
 const UserRouter = require("./Routers/usersRouter");
 const LoginRouter = require("./Routers/loginRouter");
 const VenueRouter = require("./Routers/venuesRouter");
 const BookingsRouter = require("./Routers/bookingsRouter");
-app.use(morgan(morganOption));
+
+const morganSetting = process.env.NODE_ENV === "production" ? "tiny" : "common";
+app.use(morgan(morganSetting));
 app.use(helmet());
-app.use(
-  cors({
-    origin: "*",
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    preflightContinue: true,
-    optionsSuccessStatus: 204,
-  })
-);
+app.use(cors());
 
 app.get("/", (req, res) => {
   res.send("Hello, bookapp!");

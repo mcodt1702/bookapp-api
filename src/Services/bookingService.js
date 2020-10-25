@@ -19,7 +19,10 @@ const BookingService = {
     return knex("bookings")
       .where({ id: order_id })
       .update(updateStatus, (returning = true))
-      .returning("*");
+      .returning("*")
+      .then((rows) => {
+        return rows[0];
+      });
   },
 };
 

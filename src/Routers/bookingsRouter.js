@@ -43,9 +43,9 @@ BookingsRouter.route("/")
       })
       .catch(next);
   })
-  .patch(cors(), requireAuth, jsonParser, (req, res, next) => {
-    const { id, users_id } = req.body;
-    const updateUsers_id = { users_id };
+  .put(requireAuth, jsonParser, (req, res, next) => {
+    const { id } = req.body;
+    const updateUsers_id = { users_id: req.user.id };
 
     const numberOfValues = Object.values(updateUsers_id).filter(Boolean).length;
     if (numberOfValues === 0)
@@ -56,11 +56,11 @@ BookingsRouter.route("/")
       });
 
     BookingService.updateStatus(req.app.get("db"), id, updateUsers_id)
-      .then((updateUsers_id) => {
+      .then((updatedBooking) => {
         res
-          .status(204)
-          .location(path.posix.join(req.originalUrl, `/${updateUsers_id.id}`))
-          .json(serializeBooking(updateUsers_id[0]));
+          .status(200)
+          .location(path.posix.join(req.originalUrl, `/${updatedBooking.id}`))
+          .json(serializeBooking(updatedBooking));
       })
       .catch(next);
   });

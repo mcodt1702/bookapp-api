@@ -15,6 +15,9 @@
     "postdeploy": "npm run migrate:production"
   },
   "keywords": [],
+  "engines": {
+    "node": "13.8.0"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -28,7 +31,8 @@
     "morgan": "^1.10.0",
     "path": "^0.12.7",
     "pg": "^8.4.1",
-    "postgrator": "^4.1.0"
+    "postgrator": "^4.1.0",
+    "postgrator-cli": "^3.2.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
