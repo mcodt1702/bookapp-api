@@ -15,10 +15,20 @@ const BookingService = {
       });
   },
 
-  updateStatus(knex, order_id, updateStatus) {
+  updateStatus(knex, id, updateStatus) {
     return knex("bookings")
-      .where({ id: order_id })
+      .where({ id })
       .update(updateStatus, (returning = true))
+      .returning("*")
+      .then((rows) => {
+        return rows[0];
+      });
+  },
+
+  clearUser(knex, id) {
+    return knex("bookings")
+      .where({ id })
+      .update({ users_id: null }, (returning = true))
       .returning("*")
       .then((rows) => {
         return rows[0];

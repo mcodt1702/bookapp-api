@@ -5,6 +5,7 @@ const jsonParser = express.json();
 const path = require("path");
 const bcrypt = require("bcryptjs");
 const { serialize } = require("v8");
+const { requireAuth } = require("../Auth/jwtAuthorization");
 
 serializeUser = (user) => ({
   id: user.id,
@@ -14,7 +15,7 @@ serializeUser = (user) => ({
 });
 
 UserRouter.route("/")
-  .get((req, res, next) => {
+  .get(requireAuth, (req, res, next) => {
     const knexInstance = req.app.get("db");
     UserService.getAllUsers(knexInstance)
       .then((user) => {
@@ -47,5 +48,8 @@ UserRouter.route("/")
       })
       .catch(next);
   });
+UserRouter.route("/name").get(requireAuth, (req, res, next) => {
+  res.json(req.user);
+});
 
 module.exports = UserRouter;

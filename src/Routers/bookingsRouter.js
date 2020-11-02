@@ -65,4 +65,29 @@ BookingsRouter.route("/")
       .catch(next);
   });
 
+BookingsRouter.route("/cancel").put(
+  requireAuth,
+  jsonParser,
+  (req, res, next) => {
+    const { id } = req.body;
+    const updateUsers_id = { users_id: null };
+
+    if (!id)
+      return res.status(400).json({
+        error: {
+          message: `Request body must content either 'Users Id' or/and the booking id`,
+        },
+      });
+
+    BookingService.updateStatus(req.app.get("db"), id, updateUsers_id)
+      .then((updatedBooking) => {
+        res
+          .status(200)
+          .location(path.posix.join(req.originalUrl, `/${updatedBooking.id}`))
+          .json(serializeBooking(updatedBooking));
+      })
+      .catch(next);
+  }
+);
+
 module.exports = BookingsRouter;
